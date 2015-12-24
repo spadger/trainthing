@@ -8,7 +8,6 @@ using System.Net.Http;
 using ModernHttpClient;
 using Android.Views;
 
-
 namespace TrainThing
 {
     public class ResultsFragment : Fragment
@@ -18,13 +17,10 @@ namespace TrainThing
         Button button;
         Spinner spnDirection;
 
-
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 			return inflater.Inflate(Resource.Layout.Results, container, false);
 		}
-
-
 
 		public override async void OnResume()
 		{
@@ -66,18 +62,14 @@ namespace TrainThing
                 var fst = "fst";
                 var bef = "bef";
 
-                using(var client = new HttpClient(new NativeMessageHandler()))
+                var timetableGetter = new TimetableGetter();
+
+                var fromBEF = spnDirection.SelectedItemPosition==0;
+                results = await timetableGetter.GetValidServicesFor(fromBEF?bef:fst, fromBEF?fst:bef);
+
+                foreach(var result in results)
                 {
-                    var railClient = new RailClient(client);
-                    var timetableGetter = new TimetableGetter(railClient);
-
-                    var fromBEF = spnDirection.SelectedItemPosition==0;
-                    results = await timetableGetter.GetValidServicesFor(fromBEF?bef:fst, fromBEF?fst:bef);
-
-                    foreach(var result in results)
-                    {
-                        resultsAdapter.Add(result.ToString());
-                    }
+                    resultsAdapter.Add(result.ToString());
                 }
             }
             finally

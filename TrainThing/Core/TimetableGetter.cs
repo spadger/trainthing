@@ -5,12 +5,19 @@ using System.Collections.Generic;
 
 namespace TrainThing
 {
-
-	public class TimetableGetter
+	public interface ITimetableGetter
 	{
-		private readonly RailClient client;
+		Task<IEnumerable<Train>> GetValidServicesFor (string from, string to);
+	}
 
-		public TimetableGetter (RailClient client)
+	public class TimetableGetter : ITimetableGetter
+	{
+		private readonly IRailClient client;
+
+		public TimetableGetter() : this(new RailClient())
+		{}
+
+		public TimetableGetter (IRailClient client)
 		{
 			this.client = client;
 		}
