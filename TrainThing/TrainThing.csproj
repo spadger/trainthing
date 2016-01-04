@@ -62,9 +62,9 @@
     <Compile Include="Core\RailClient.cs" />
     <Compile Include="ApiKeys.cs" />
     <Compile Include="ResultsFragment.cs" />
+    <Compile Include="TrainWidget.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\AboutResources.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="packages.config" />
@@ -79,10 +79,13 @@
     <AndroidResource Include="Resources\mipmap-xxhdpi\Icon.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\Icon.png" />
     <AndroidResource Include="Resources\layout\Results.axml" />
+    <AndroidResource Include="Resources\xml\widget.xml" />
+    <AndroidResource Include="Resources\layout\widget.axml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />
     <Folder Include="Core\" />
+    <Folder Include="Resources\xml\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ItemGroup>

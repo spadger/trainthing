@@ -33,8 +33,7 @@ namespace TrainThing
             directionAdapter.AddAll (new List<string>{ "Benfleet -> London", "London -> Benfleet" });
             spnDirection.Adapter = directionAdapter;
 
-            var now = DateTime.Now.Hour;
-            if (now < 3 || now > 13) {
+            if(TimetableGetter.ShouldBeToBenfleet()) {
                 spnDirection.SetSelection(1);
             }
 
@@ -79,6 +78,6 @@ namespace TrainThing
                 spnDirection.Enabled = true;
             }
         }
-
     }
+
 }

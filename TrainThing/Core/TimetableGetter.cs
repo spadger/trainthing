@@ -29,5 +29,21 @@ namespace TrainThing
 			return departures.OrderBy (x => x.AimedArrivalTime)
 				.Take(8);
 		}
+
+        public static bool ShouldBeToBenfleet()
+        {
+            var now = DateTime.Now.Hour;
+            return now < 3 || now > 13;
+        }
+
+        public static string GetDepartureStation()
+        {
+            return ShouldBeToBenfleet()? "fst" : "bef";
+        }
+
+        public static string GetDestinationStation()
+        {
+            return ShouldBeToBenfleet()? "bef" : "fst";
+        }
 	}
 }
