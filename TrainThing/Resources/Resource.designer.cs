@@ -45,8 +45,23 @@ namespace TrainThing
 		public partial class Id
 		{
 			
+			// aapt resource value: 0x7f060009
+			public const int arrives_1 = 2131099657;
+			
+			// aapt resource value: 0x7f06000c
+			public const int arrives_2 = 2131099660;
+			
 			// aapt resource value: 0x7f060007
-			public const int last_updated = 2131099655;
+			public const int departs_1 = 2131099655;
+			
+			// aapt resource value: 0x7f06000a
+			public const int departs_2 = 2131099658;
+			
+			// aapt resource value: 0x7f060005
+			public const int last_updated = 2131099653;
+			
+			// aapt resource value: 0x7f060006
+			public const int linearLayout1 = 2131099654;
 			
 			// aapt resource value: 0x7f060003
 			public const int lstResults = 2131099651;
@@ -54,11 +69,11 @@ namespace TrainThing
 			// aapt resource value: 0x7f060002
 			public const int myButton = 2131099650;
 			
-			// aapt resource value: 0x7f060005
-			public const int next_train_time = 2131099653;
+			// aapt resource value: 0x7f060008
+			public const int platform_1 = 2131099656;
 			
-			// aapt resource value: 0x7f060006
-			public const int platform = 2131099654;
+			// aapt resource value: 0x7f06000b
+			public const int platform_2 = 2131099659;
 			
 			// aapt resource value: 0x7f060004
 			public const int refresh_now = 2131099652;

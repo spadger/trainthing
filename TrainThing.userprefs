@@ -1,15 +1,30 @@
 ﻿<Properties StartupItem="TrainThing\TrainThing.csproj" RefactoringSettings.EnableRefactorings="True">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.nexus5" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="TrainThing\readme.md">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.00933b82d2d52aaf" />
+  <MonoDevelop.Ide.Workbench>
     <Files>
-      <File FileName="TrainThing\MainActivity.cs" Line="1" Column="19" />
-      <File FileName="TrainThing\Core\RailClient.cs" Line="20" Column="4" />
-      <File FileName="TrainThing\readme.md" Line="7" Column="5" />
+      <File FileName="TrainThing\Resources\values\Styles.xml" Line="5" Column="44" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="TrainThing" expanded="True">
+            <Node name="TrainThing" expanded="True">
+              <Node name="Core" expanded="True" />
+              <Node name="Resources" expanded="True">
+                <Node name="values" expanded="True">
+                  <Node name="Styles.xml" selected="True" />
+                </Node>
+                <Node name="xml" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.TrainThing AndroidDesignerPreferredDevice="Nexus 4" />
+  <MonoDevelop.Ide.ItemProperties.TrainThing AndroidDesignerPreferredDevice="Nexus 4" AndroidDesignerPreferredTheme="Theme.DeviceDefault.Dialog" />
 </Properties>

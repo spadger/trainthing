@@ -37,31 +37,54 @@ namespace TrainThing
 
 		private void Refresh(Context context, RemoteViews view)
 		{
+			AppWidgetManager manager = AppWidgetManager.GetInstance (context);
+			ComponentName thisWidget = new ComponentName (context, Java.Lang.Class.FromType (typeof (TrainWidget)).Name);
+
             var resultsTask = new TimetableGetter().GetValidServicesFor(TimetableGetter.GetDepartureStation(), TimetableGetter.GetDestinationStation());
 
-            view.SetTextViewText(Resource.Id.next_train_time, "");
-            view.SetTextViewText(Resource.Id.platform, "");
-            view.SetTextViewText (Resource.Id.last_updated, DateTime.Now.ToString ("HH:mm:ss"));
+			view.SetTextViewText(Resource.Id.departs_1, "");
+			view.SetTextViewText(Resource.Id.platform_1, "");
+			view.SetTextViewText(Resource.Id.arrives_1, "");
+			view.SetTextViewText(Resource.Id.departs_2, "");
+			view.SetTextViewText(Resource.Id.platform_2, "");
+			view.SetTextViewText(Resource.Id.arrives_2, "");
 
-            resultsTask.ContinueWith (x=>PopulateViewWithResults(x, context, view), TaskContinuationOptions.OnlyOnRanToCompletion);
+			view.SetTextViewText (Resource.Id.last_updated, "updating now...");
+
+			manager.UpdateAppWidget (thisWidget, view);
+            
+            resultsTask.ContinueWith (x=>PopulateViewWithResults(x, context, manager, view, thisWidget), TaskContinuationOptions.OnlyOnRanToCompletion);
 		}
 
-        private void PopulateViewWithResults(Task<IEnumerable<Train>> trainsTask, Context context, RemoteViews view)
+		private void PopulateViewWithResults(Task<IEnumerable<Train>> trainsTask, Context context, AppWidgetManager manager, RemoteViews view, ComponentName thisWidget)
         {
-            AppWidgetManager manager = AppWidgetManager.GetInstance (context);
-            ComponentName thisWidget = new ComponentName (context, Java.Lang.Class.FromType (typeof (TrainWidget)).Name);
+			view.SetTextViewText (Resource.Id.last_updated, DateTime.Now.ToString ("HH:mm:ss"));
 
-            var train = trainsTask.Result.FirstOrDefault();
+			var trains = trainsTask.Result;
+			var train = trains.FirstOrDefault();
 
-            if(train==null)
-            {
-                return;
-            }
+			if(train!=null)
+			{
+				view.SetTextViewText(Resource.Id.departs_1, Format(train.ProbableDepartureTime));
+				view.SetTextViewText(Resource.Id.platform_1, train.Platform);
+				view.SetTextViewText(Resource.Id.arrives_1, Format(train.AimedArrivalTime));
+			}
 
-            view.SetTextViewText(Resource.Id.next_train_time, train.ProbableDepartureTime.ToString("hh:mm"));
-            view.SetTextViewText(Resource.Id.platform, train.Platform);
+			train = trains.Skip(1).FirstOrDefault();
+
+			if(train!=null)
+			{
+				view.SetTextViewText(Resource.Id.departs_2, Format(train.ProbableDepartureTime));
+				view.SetTextViewText(Resource.Id.platform_2, train.Platform);
+				view.SetTextViewText(Resource.Id.arrives_2, Format(train.AimedArrivalTime));
+			}
 
             manager.UpdateAppWidget (thisWidget, view);
         }
+
+		private string Format(DateTime? time)
+		{
+			return time == null ? "unkonwn" : time.Value.ToString ("HH:mm");
+		}
     }
 }
