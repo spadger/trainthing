@@ -20,9 +20,27 @@ namespace TrainThing
 			}
 		}
 
-		private TimeSpan? Duration
+		public TimeSpan? Duration
 		{
-			get { return AimedArrivalTime - ProbableDepartureTime; }
+			get 
+			{
+				var result = AimedArrivalTime - ProbableDepartureTime; 
+
+				if (result != null && result.Value.TotalMinutes < 0) {
+					result = result.Value.Add (TimeSpan.FromDays (1));
+				}
+
+				return result;
+			}
+		}
+
+		public string FormattedDurationMinutes
+		{
+			get
+			{
+				var duration = Duration;
+				return duration.HasValue ? duration.Value.TotalMinutes.ToString() : "unknown";
+			}
 		}
 
 		public override string ToString ()
@@ -30,7 +48,7 @@ namespace TrainThing
 			var template = @"Platform {0} to {1}
 {2:HH:mm} - {3:HH:mm} ({4} mins)";
 				
-			return string.Format (template, Platform, Destination, ProbableDepartureTime, AimedArrivalTime, Duration == null ? null : (double?)Duration.Value.TotalMinutes);
+			return string.Format (template, Platform, Destination, ProbableDepartureTime, AimedArrivalTime, FormattedDurationMinutes);
 		}
 	}
 

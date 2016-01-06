@@ -43,6 +43,9 @@ namespace TrainThing
             var resultsTask = new TimetableGetter().GetValidServicesFor(TimetableGetter.GetDepartureStation(), TimetableGetter.GetDestinationStation());
 
 			view.SetTextViewText (Resource.Id.last_updated, "updating now...");
+			view.SetViewVisibility(Resource.Id.train_1, Android.Views.ViewStates.Gone);
+			view.SetViewVisibility(Resource.Id.train_2, Android.Views.ViewStates.Gone);
+			view.SetViewVisibility(Resource.Id.train_3, Android.Views.ViewStates.Gone);
 
 			manager.UpdateAppWidget (thisWidget, view);
             
@@ -53,25 +56,21 @@ namespace TrainThing
         {
 			view.SetTextViewText (Resource.Id.last_updated, DateTime.Now.ToString ("HH:mm:ss"));
 
-			view.SetViewVisibility(Resource.Id.train_1, Android.Views.ViewStates.Gone);
-			view.SetViewVisibility(Resource.Id.train_2, Android.Views.ViewStates.Gone);
-			view.SetViewVisibility(Resource.Id.train_3, Android.Views.ViewStates.Gone);
-
 			var trains = trainsTask.Result;
 
 			var train = trains.Skip(0).FirstOrDefault();
-			SetupView(train, view, Resource.Id.departs_1, Resource.Id.platform_1, Resource.Id.arrives_1, Resource.Id.train_1);
+			SetupView(train, view, Resource.Id.departs_1, Resource.Id.platform_1, Resource.Id.arrives_1, Resource.Id.duration_1, Resource.Id.train_1);
 
 			train = trains.Skip(1).FirstOrDefault();
-			SetupView(train, view, Resource.Id.departs_2, Resource.Id.platform_2, Resource.Id.arrives_2, Resource.Id.train_2);
+			SetupView(train, view, Resource.Id.departs_2, Resource.Id.platform_2, Resource.Id.arrives_2, Resource.Id.duration_2, Resource.Id.train_2);
 
 			train = trains.Skip(2).FirstOrDefault();
-			SetupView(train, view, Resource.Id.departs_3, Resource.Id.platform_3, Resource.Id.arrives_3, Resource.Id.train_3);
+			SetupView(train, view, Resource.Id.departs_3, Resource.Id.platform_3, Resource.Id.arrives_3, Resource.Id.duration_3, Resource.Id.train_3);
 
             manager.UpdateAppWidget (thisWidget, view);
         }
 
-		private void SetupView(Train train, RemoteViews view, int departsId, int platformId, int arrivesId, int containerId)
+		private void SetupView(Train train, RemoteViews view, int departsId, int platformId, int arrivesId, int durationId, int containerId)
 		{
 			if (train == null) 
 			{
@@ -81,6 +80,7 @@ namespace TrainThing
 			view.SetTextViewText(departsId, Format(train.ProbableDepartureTime));
 			view.SetTextViewText(platformId, train.Platform);
 			view.SetTextViewText(arrivesId, Format(train.AimedArrivalTime));
+			view.SetTextViewText(durationId, train.FormattedDurationMinutes);
 
 			view.SetViewVisibility (containerId, Android.Views.ViewStates.Visible);
 		}
