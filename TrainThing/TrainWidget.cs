@@ -42,13 +42,6 @@ namespace TrainThing
 
             var resultsTask = new TimetableGetter().GetValidServicesFor(TimetableGetter.GetDepartureStation(), TimetableGetter.GetDestinationStation());
 
-			view.SetTextViewText(Resource.Id.departs_1, "");
-			view.SetTextViewText(Resource.Id.platform_1, "");
-			view.SetTextViewText(Resource.Id.arrives_1, "");
-			view.SetTextViewText(Resource.Id.departs_2, "");
-			view.SetTextViewText(Resource.Id.platform_2, "");
-			view.SetTextViewText(Resource.Id.arrives_2, "");
-
 			view.SetTextViewText (Resource.Id.last_updated, "updating now...");
 
 			manager.UpdateAppWidget (thisWidget, view);
@@ -60,27 +53,37 @@ namespace TrainThing
         {
 			view.SetTextViewText (Resource.Id.last_updated, DateTime.Now.ToString ("HH:mm:ss"));
 
-			var trains = trainsTask.Result;
-			var train = trains.FirstOrDefault();
+			view.SetViewVisibility(Resource.Id.train_1, Android.Views.ViewStates.Gone);
+			view.SetViewVisibility(Resource.Id.train_2, Android.Views.ViewStates.Gone);
+			view.SetViewVisibility(Resource.Id.train_3, Android.Views.ViewStates.Gone);
 
-			if(train!=null)
-			{
-				view.SetTextViewText(Resource.Id.departs_1, Format(train.ProbableDepartureTime));
-				view.SetTextViewText(Resource.Id.platform_1, train.Platform);
-				view.SetTextViewText(Resource.Id.arrives_1, Format(train.AimedArrivalTime));
-			}
+			var trains = trainsTask.Result;
+
+			var train = trains.Skip(0).FirstOrDefault();
+			SetupView(train, view, Resource.Id.departs_1, Resource.Id.platform_1, Resource.Id.arrives_1, Resource.Id.train_1);
 
 			train = trains.Skip(1).FirstOrDefault();
+			SetupView(train, view, Resource.Id.departs_2, Resource.Id.platform_2, Resource.Id.arrives_2, Resource.Id.train_2);
 
-			if(train!=null)
-			{
-				view.SetTextViewText(Resource.Id.departs_2, Format(train.ProbableDepartureTime));
-				view.SetTextViewText(Resource.Id.platform_2, train.Platform);
-				view.SetTextViewText(Resource.Id.arrives_2, Format(train.AimedArrivalTime));
-			}
+			train = trains.Skip(2).FirstOrDefault();
+			SetupView(train, view, Resource.Id.departs_3, Resource.Id.platform_3, Resource.Id.arrives_3, Resource.Id.train_3);
 
             manager.UpdateAppWidget (thisWidget, view);
         }
+
+		private void SetupView(Train train, RemoteViews view, int departsId, int platformId, int arrivesId, int containerId)
+		{
+			if (train == null) 
+			{
+				return;
+			}
+
+			view.SetTextViewText(departsId, Format(train.ProbableDepartureTime));
+			view.SetTextViewText(platformId, train.Platform);
+			view.SetTextViewText(arrivesId, Format(train.AimedArrivalTime));
+
+			view.SetViewVisibility (containerId, Android.Views.ViewStates.Visible);
+		}
 
 		private string Format(DateTime? time)
 		{
